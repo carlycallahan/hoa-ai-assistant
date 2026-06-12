@@ -1,0 +1,6 @@
+.venv/
+hoa_documents.db
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log

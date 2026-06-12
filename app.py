@@ -403,6 +403,12 @@ def render_document_summary(documents, conn):
         with col2:
             if st.button("🗑️", key=f"delete_{doc[0]}", help="Delete this document"):
                 delete_document(conn, doc[0])
+                # Clear UI session state so previous answers/context don't persist
+                if "history" in st.session_state:
+                    st.session_state.history = []
+                st.session_state.last_answer = ""
+                st.session_state.last_query = ""
+                st.session_state.last_context = []
                 st.rerun()
 
 
@@ -448,7 +454,13 @@ def main():
                     st.success(
                         f"Saved '{uploaded_file.name}' with {chunk_count} chunks to the database."
                     )
-                    st.rerun()
+                            # Clear UI session state so previous answers/context don't persist
+                            if "history" in st.session_state:
+                                st.session_state.history = []
+                            st.session_state.last_answer = ""
+                            st.session_state.last_query = ""
+                            st.session_state.last_context = []
+                            st.rerun()
                 except Exception as error:
                     st.error(str(error))
 
